@@ -1,6 +1,7 @@
-from zipfile import ZipFile
 from sys import argv
 from threading import Thread
+from time import time
+from zipfile import ZipFile
 
 
 # DIVIDE EL DICCIONARIO EN PARTES IGUALES
@@ -28,6 +29,7 @@ class Craker:
     # CRACKER
     def __cracker(self):
         Zip = ZipFile(self.zip, mode="r")
+        start_time = time()
         for password in self.dictionary:
             if not self.__running: break
             try:
@@ -36,6 +38,7 @@ class Craker:
                 pass
             else:
                 print(chr(27) + "[0;31m" + "Password Found: " + chr(27) + "[0;32m" + password)
+                print(chr(27) + "[0;31m" + "Time to Find: " + chr(27) + "[0;32m" + str(round(abs(time() - start_time), 4)))
                 self.__stop_all()
 
     # PARAR TODOS LOS THREADS
@@ -51,6 +54,7 @@ if __name__ == '__main__':
 
     with open(argv[1], "r", errors="ignore") as file:
         dictionary = file.read().split(argv[4] if len(argv) >= 5 else "\n")
+        print(chr(27) + "[0;33m" + "Dictionary lenght: ", len(dictionary))
 
     amount_threads = int(argv[3]) if len(argv) >= 4 else 1
     equitative_dict = divisor(dictionary, amount_threads)
