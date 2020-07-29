@@ -39,9 +39,9 @@ class Craker:
             except:
                 pass
             else:
-                self.__stop_all()
                 print(chr(27) + "[0;31m" + "Password Found: " + chr(27) + "[0;32m" + password)
                 print(chr(27) + "[0;31m" + "Time to Find: " + chr(27) + "[0;32m" + str(round(abs(time() - start_time), 4)))
+                self.__stop_all()
                 log["password"] = password
                 with open("log.txt", "w") as dict_:
                     dict_.write(dumps(log))
