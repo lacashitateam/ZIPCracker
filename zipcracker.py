@@ -30,7 +30,6 @@ class Craker:
 
     # CRACKER
     def __cracker(self):
-        global log
         Zip = ZipFile(self.zip, mode="r")
         start_time = time()
         for password in self.dictionary:
@@ -43,9 +42,6 @@ class Craker:
                 print(chr(27) + "[0;31m" + "Password Found: " + chr(27) + "[0;32m" + password)
                 print(chr(27) + "[0;31m" + "Time to Find: " + chr(27) + "[0;32m" + str(round(abs(time() - start_time), 4)))
                 self.__stop_all()
-                log["password"] = password
-                with open("log.txt", "w") as dict_:
-                    dict_.write(dumps(log))
 
     # PARAR TODOS LOS THREADS
     @staticmethod
@@ -80,7 +76,6 @@ if __name__ == '__main__':
 
         amount_threads = threads
         equitative_dict = divisor(dictionary, amount_threads)
-        log = {"dictionary": equitative_dict}
 
         cracker_list = []
         for thread in range(len(equitative_dict)):
