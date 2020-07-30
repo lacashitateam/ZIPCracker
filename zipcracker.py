@@ -1,5 +1,4 @@
 from getopt import getopt, GetoptError
-from json import dumps
 from sys import argv
 from threading import Thread
 from time import time
@@ -82,7 +81,7 @@ if __name__ == '__main__':
             cracker = Craker(equitative_dict[thread], zipPath)
             cracker_list.append(cracker)
             cracker.run()
-        print(chr(27) + "[0;36m" + "Started threads: ", len(cracker_list))
+        print(chr(27) + "[0;36m" + "Started threads: ", len(cracker_list),"\nStarting Cracker")
 
     except GetoptError:
         print("Usage:\nzipcracker.py -d <dictionary> -z <zip> [options]\n\nOptions:\nThreads: -t <threads>\nDelimeter: -D <delimeter>")
@@ -90,4 +89,3 @@ if __name__ == '__main__':
     except:
         print("Error Types:\n1) Invalid Files\n2) Invalid Threads\n3) Invalid Delimeter")
         print("Usage:\nzipcracker.py -d <dictionary> -z <zip> [options]\n\nOptions:\nThreads: -t <threads>\nDelimeter: -D <delimeter>")
-
