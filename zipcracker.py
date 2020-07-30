@@ -1,3 +1,4 @@
+from getopt import getopt, GetoptError
 from json import dumps
 from sys import argv
 from threading import Thread
@@ -55,19 +56,41 @@ class Craker:
 
 
 if __name__ == '__main__':
-    if len(argv) < 3: print("Usage:\nzipcracker.py <dictionary> <zip> [options]\n\nOptions:\nThreads: <threads>\nDelimeter: <delimeter>");exit()
+    # DEFAULT VARS
+    dictPath = ""
+    zipPath = ""
+    threads = 1
+    delimeter = "\n"
 
-    with open(argv[1], "r", errors="ignore") as file:
-        dictionary = file.read().split(argv[4] if len(argv) >= 5 else "\n")
-        print(chr(27) + "[0;33m" + "Dictionary lenght: ", len(dictionary))
+    try:
+        params, args = getopt(argv[1:], "d:z:t:D:")
+        for opt, arg in params:
+            if opt == "-d":
+                dictPath = arg
+            elif opt == "-z":
+                zipPath = arg
+            elif opt == "-t":
+                threads = int(arg)
+            elif opt == "-D":
+                delimeter = arg
 
-    amount_threads = int(argv[3]) if len(argv) >= 4 else 1
-    equitative_dict = divisor(dictionary, amount_threads)
-    log = {"dictionary": equitative_dict}
+        with open(dictPath, "r", errors="ignore") as file:
+            dictionary = file.read().split(delimeter)
+            print(chr(27) + "[0;33m" + "Dictionary lenght: ", len(dictionary))
 
-    cracker_list = []
-    for thread in range(len(equitative_dict)):
-        cracker = Craker(equitative_dict[thread], argv[2])
-        cracker_list.append(cracker)
-        cracker.run()
-    print(chr(27) + "[0;36m" + "Started threads: ", len(cracker_list))
+        amount_threads = threads
+        equitative_dict = divisor(dictionary, amount_threads)
+        log = {"dictionary": equitative_dict}
+
+        cracker_list = []
+        for thread in range(len(equitative_dict)):
+            cracker = Craker(equitative_dict[thread], zipPath)
+            cracker_list.append(cracker)
+            cracker.run()
+        print(chr(27) + "[0;36m" + "Started threads: ", len(cracker_list))
+
+    except GetoptError:
+        print("Usage:\nzipcracker.py -d <dictionary> -z <zip> [options]\n\nOptions:\nThreads: -t <threads>\nDelimeter: -D <delimeter>")
+
+    except:
+        print("Error Types:\n1) Invalid Files\n2) Invalid Threads\n3) Invalid Delimeter")
