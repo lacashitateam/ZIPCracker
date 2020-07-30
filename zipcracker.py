@@ -94,3 +94,5 @@ if __name__ == '__main__':
 
     except:
         print("Error Types:\n1) Invalid Files\n2) Invalid Threads\n3) Invalid Delimeter")
+        print("Usage:\nzipcracker.py -d <dictionary> -z <zip> [options]\n\nOptions:\nThreads: -t <threads>\nDelimeter: -D <delimeter>")
+
